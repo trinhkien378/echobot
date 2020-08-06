@@ -8,7 +8,8 @@
     "url": "git+https://github.com/hanschun/echobot"
   },
   "dependencies": {
-    "discord.js": "^12.2.0"
+    "discord.js": "^12.2.0",
+    "eslint": "^7.6.0"
   },
   "devDependencies": {},
   "scripts": {
