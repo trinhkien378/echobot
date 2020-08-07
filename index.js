@@ -1,9 +1,18 @@
 const fs = require('fs');
-const {DISCORD_TOKEN} = require('./env.json');
+const {DISCORD_TOKEN, OWNER_ID} = require('./env.json');
 const {prefix} = require('./config.json');
+const {printStart} = require('./shared/print-start');
 
 const Discord = require('discord.js');
 const client = new Discord.Client();
+
+const restart = async() => {
+    await client.destroy();
+    await client.login(DISCORD_TOKEN);
+    printStart();
+};
+
+module.exports = {restart};
 
 /**
  * COMMANDS
@@ -22,6 +31,28 @@ for (const file of commandFiles) {
  */
 const cooldowns = new Discord.Collection();
 
+// client.on('message', async(message) => {
+//     let isBotOwner = false;
+//     if (message.author.id.toString() === OWNER_ID) {
+//         isBotOwner = true;
+//     }
+//     switch (message.content) {
+//         case '!restart':
+//             if (!isBotOwner) {
+//                 console.log('Not the owner');
+//                 return;
+//             }
+//
+//             console.log('Restarting. Be Right Back...');
+//             await client.destroy();
+//             await client.login(DISCORD_TOKEN);
+//             break;
+//         default:
+//             console.log('Nothing happening!');
+//             break;
+//     }
+// });
+
 /**
  * MESSAGE EVENT
  */
@@ -32,7 +63,7 @@ client.on('message', message => {
     const commandName = args.shift().toLowerCase();
 
     // if command is not found in command list, return
-    if (!client.commands.has(commandName)) return;
+    // if (!client.commands.has(commandName)) return;
     const command = client.commands.get(commandName) ||
         client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
@@ -83,14 +114,7 @@ client.on('message', message => {
 
 
 client.once('ready', () => {
-    console.log(' ______   ______   ___   ___   ______        _______   ______   _________  ');
-    console.log('/_____/\\ /_____/\\ /__/\\ /__/\\ /_____/\\     /_______/\\ /_____/\\ /________/\\ ');
-    console.log('\\::::_\\/_\\:::__\\/ \\::\\ \\\\  \\ \\\\:::_ \\ \\    \\::: _  \\ \\\\:::_ \\ \\\\__.::.__\\/');
-    console.log(' \\:\\/___/\\\\:\\ \\  __\\::\\/_\\ .\\ \\\\:\\ \\ \\ \\    \\::(_)  \\/_\\:\\ \\ \\ \\  \\::\\ \\  ');
-    console.log('  \\::___\\/_\\:\\ \\/_/\\\\:: ___::\\ \\\\:\\ \\ \\ \\    \\::  _  \\ \\\\:\\ \\ \\ \\  \\::\\ \\ ');
-    console.log('   \\:\\____/\\\\:\\_\\ \\ \\\\: \\ \\\\::\\ \\\\:\\_\\ \\ \\    \\::(_)  \\ \\\\:\\_\\ \\ \\  \\::\\ \\');
-    console.log('    \\_____\\/ \\_____\\/ \\__\\/ \\::\\/ \\_____\\/     \\_______\\/ \\_____\\/   \\__\\/');
-    console.log('READY!');
+    printStart();
 });
 
 client.login(DISCORD_TOKEN);
