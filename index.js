@@ -23,7 +23,7 @@ for (const file of commandFiles) {
 const cooldowns = new Discord.Collection();
 
 /**
- * MESSAGE EVENTT
+ * MESSAGE EVENT
  */
 client.on('message', message => {
     if (!message.content.startsWith(prefix) || message.author.bot) return;
@@ -81,8 +81,16 @@ client.on('message', message => {
     }
 });
 
+
 client.once('ready', () => {
-    console.log('Ready');
+    console.log(' ______   ______   ___   ___   ______        _______   ______   _________  ');
+    console.log('/_____/\\ /_____/\\ /__/\\ /__/\\ /_____/\\     /_______/\\ /_____/\\ /________/\\ ');
+    console.log('\\::::_\\/_\\:::__\\/ \\::\\ \\\\  \\ \\\\:::_ \\ \\    \\::: _  \\ \\\\:::_ \\ \\\\__.::.__\\/');
+    console.log(' \\:\\/___/\\\\:\\ \\  __\\::\\/_\\ .\\ \\\\:\\ \\ \\ \\    \\::(_)  \\/_\\:\\ \\ \\ \\  \\::\\ \\  ');
+    console.log('  \\::___\\/_\\:\\ \\/_/\\\\:: ___::\\ \\\\:\\ \\ \\ \\    \\::  _  \\ \\\\:\\ \\ \\ \\  \\::\\ \\ ');
+    console.log('   \\:\\____/\\\\:\\_\\ \\ \\\\: \\ \\\\::\\ \\\\:\\_\\ \\ \\    \\::(_)  \\ \\\\:\\_\\ \\ \\  \\::\\ \\');
+    console.log('    \\_____\\/ \\_____\\/ \\__\\/ \\::\\/ \\_____\\/     \\_______\\/ \\_____\\/   \\__\\/');
+    console.log('READY!');
 });
 
 client.login(DISCORD_TOKEN);

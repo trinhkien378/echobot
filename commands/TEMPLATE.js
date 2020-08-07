@@ -1,3 +1,13 @@
+/**
+ * TEMPLATE
+ * @type {{
+ * aliases: [string],
+ * usage: string,
+ * name: string,
+ * cooldown: number,
+ * description: string,
+ * execute(*, *): (string)}}
+ */
 module.exports = {
     name: 'template',
     description: 'Sample command with all fields',

@@ -9,8 +9,11 @@ module.exports = {
         if (!args.length) {
             return message.channel.send(`6`);
         } else {
-            const nameString = args.join(' ');
-            return message.channel.send(`${nameString}`);
+            // put all the arguments together
+            const dieString = args.join();
+            // remove the little 'd' and paste them all together again
+            const num = dieString.split('d').join('');
+            return message.channel.send(num);
         }
     },
 };

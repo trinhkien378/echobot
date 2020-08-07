@@ -1,5 +1,15 @@
 const { prefix } = require('../config.json');
 
+/**
+ * HELP
+ * @type {{
+ * aliases: [string],
+ * usage: string,
+ * name: string,
+ * cooldown: number,
+ * description: string,
+ * execute(*, *): (string)}}
+ */
 module.exports = {
     name: 'help',
     description: 'List all of my commands or info about a specific command.',

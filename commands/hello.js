@@ -1,5 +1,14 @@
 // send back "你好" nĭ hăo (Chinese for 'Hello') to the channel the message was sent in
-
+/**
+ * HELLO
+ * @type {{
+ * aliases: [string],
+ * usage: string,
+ * name: string,
+ * cooldown: number,
+ * description: string,
+ * execute(*, *): (string)}}
+ */
 module.exports = {
     name: 'hello',
     description: 'Hello',
