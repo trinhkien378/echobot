@@ -1,120 +1,139 @@
-const fs = require('fs');
-const {DISCORD_TOKEN, OWNER_ID} = require('./env.json');
-const {prefix} = require('./config.json');
-const {printStart} = require('./shared/print-start');
+const { Client, RichPresence } = require('discord.js-selfbot-v13');
+const express = require('express');
+const app = express();
+const bot = new Client({ checkUpdate: false });
 
-const Discord = require('discord.js');
-const client = new Discord.Client();
 
-const restart = async() => {
-    await client.destroy();
-    await client.login(DISCORD_TOKEN);
-    printStart();
-};
+const textmain = "";
+const textthree = "";
+const textfour = "";
+const type = "STREAMING";
+const pictureGede = [
+"https://cdn.discordapp.com/attachments/1248667954774544486/1248871674544128000/206f2fbf09d649ac3b931b5878e67dbf.gif?ex=6669db22&is=666889a2&hm=0dae937eb8589595b7fd1fe5d3f3390fa8c78942e1187fae9738e1b78fb10ad6&",
+"https://cdn.discordapp.com/attachments/1248667954774544486/1248871676339421184/103e5baa781358c694c9735d5d314925.gif?ex=6669db22&is=666889a2&hm=3bd27a114c16c7919a62dfb9eda977925c082d3d991d656f4507e259770baac1&",
+"https://cdn.discordapp.com/attachments/1248667954774544486/1248871677408968724/6b13d3d588b38782940c3c81c7a3afe6.gif?ex=6669db22&is=666889a2&hm=ebeedaf2e205d185da4500bbf64005025b925042552a5463f849fafcca63219d&",
+                         ];
+const smallpictureGede = [
+"https://cdn.discordapp.com/attachments/1248667954774544486/1249687946140057640/d8f7a94025439b35208cb5a0921986fc.png?ex=666a3058&is=6668ded8&hm=ccaf519d5f67f2ded0f15b6d22dd252f01c83821f67ba7042e4de3b7ded67602&",
+"https://cdn.discordapp.com/attachments/1248667954774544486/1249687947083780178/8d5ddcba602e7d9fabdacf8230eca2d8.png?ex=666a3058&is=6668ded8&hm=716f389a5c4ebcbe7913cc6e0d1ba5aae3881c3b17da86788d5b38f307ed3bef&",
+  "https://cdn.discordapp.com/attachments/1248667954774544486/1249687946706026600/a658ebb888d8947167841a41c0820364.png?ex=666a3058&is=6668ded8&hm=1334b2f9744c921d5da06c484a98d7dad27372f98afeecb37cabb9f87b3085c9&",
+                    ];
+let linkButtonone = "";
 
-module.exports = {restart};
+const xxxx = ['☆★☆★☆★☆','정말 안타깝네요','Vacole - Parys','사랑의','$#&%^&*_@','The moon','Parys - Yêu kiều','GUNG0CAY - PHÚT ĐẮM ĐUỐI'];
 
-/**
- * COMMANDS
- * @type {module:"discord.js".Collection<K, V>}
- */
-client.commands = new Discord.Collection();
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const randomTexts = [
+  'WORKAHOLIC$',
+  '사랑의 ',
+  'PARYS|🌙',
+  '당신이 싫어요',
+ 'khanhvyy🚬',
+'The moon૭˚₊·',
+'Parys - Yêu kiều',
+'𝐖𝐱𝐫𝐝𝐢𝐞૭˚₊·',
+'☁Ꮺ ꒰ 𝐗𝐢𝐧𝐲𝐚 ꒱🖋️૭˚₊·'
+];
+const randomtext3 = [];
 
-for (const file of commandFiles) {
-    const command = require(`./commands/${file}`);
-    client.commands.set(command.name, command);
+const randomtext4 = [];
+
+const randomtext5 = [];   
+
+const randomLinks = [
+  "https://www.facebook.com/wqpr.07","https://www.youtube.com/watch?v=NbI7R6G53rs","https://www.instagram.com/wqpr.07/"
+];
+
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-/**
- * COOLDOWNS
- */
-const cooldowns = new Discord.Collection();
+function getRandomElement(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+function getTimestampsForDay(year, month, day) {
+  const date = new Date(Date.UTC(year, month, day));
+  date.setHours(date.getHours() + 7);
+  date.setUTCHours(0, 0, 0, 0);
+  const timestampMidnight = date.getTime();
+  date.setUTCHours(23, 59, 59, 999);
+  const timestampEndOfDay = date.getTime();
 
-// client.on('message', async(message) => {
-//     let isBotOwner = false;
-//     if (message.author.id.toString() === OWNER_ID) {
-//         isBotOwner = true;
-//     }
-//     switch (message.content) {
-//         case '!restart':
-//             if (!isBotOwner) {
-//                 console.log('Not the owner');
-//                 return;
-//             }
-//
-//             console.log('Restarting. Be Right Back...');
-//             await client.destroy();
-//             await client.login(DISCORD_TOKEN);
-//             break;
-//         default:
-//             console.log('Nothing happening!');
-//             break;
-//     }
-// });
+  return {
+    timestampMidnight,
+    timestampEndOfDay
+  };
+}
 
-/**
- * MESSAGE EVENT
- */
-client.on('message', message => {
-    if (!message.content.startsWith(prefix) || message.author.bot) return;
 
-    const args = message.content.slice(prefix.length).trim().split(/ +/);
-    const commandName = args.shift().toLowerCase();
 
-    // if command is not found in command list, return
-    // if (!client.commands.has(commandName)) return;
-    const command = client.commands.get(commandName) ||
-        client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
-
-    // if no command found
-    if (!command) return;
-
-    if (command.guildOnly && message.channel.type !== 'text') {
-        return message.reply('I can\'t execute that command inside DMs!');
-    }
-
-    // required args not provided?
-    if (command.args && !args.length) {
-        let reply = `You didn't provide any arguments, ${message.author}!`;
-        if (command.usage) {
-            reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
-        }
-        return message.channel.send(reply);
-    }
-
-    // check for cooldown
-    if (!cooldowns.has(command.name)) {
-        cooldowns.set(command.name, new Discord.Collection());
-    }
-
-    const now = Date.now();
-    const timestamps = cooldowns.get(command.name);
-    const cooldownAmount = (command.cooldown || 3) * 1000;
-
-    if (timestamps.has(message.author.id)) {
-        const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
-
-        if (now < expirationTime) {
-            const timeLeft = (expirationTime - now) / 1000;
-            return message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
-        }
-    }
-    // ensure timeout is set
-    timestamps.set(message.author.id, now);
-    setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-
-    try {
-        command.execute(message, args);
-    } catch (error) {
-        console.error(error);
-        message.reply('there was an error trying to execute that command!');
-    }
+app.all('/', (req, res) => {
+  res.send("NOW GO TO uptimerobot.com AND PASTE THIS URL");
 });
 
-
-client.once('ready', () => {
-    printStart();
+app.listen(8080, () => {
+  console.log("Server is ready!!");
 });
 
-client.login(DISCORD_TOKEN);
+bot.on('debug', (a) => {
+  if (a.startsWith("Hit a 429")) process.kill(1);
+});
+
+bot.on('ready', async () => {
+  setInterval(() => {
+    const date = new Date();
+    const datee = date.getDate();
+    const hours = (date.getHours() + 7) % 24;
+    const minutes = date.getMinutes();
+    const months = date.getMonth();
+    const year = date.getFullYear();
+    const timestamps = getTimestampsForDay(year, months, datee);
+    function addZero(number) {
+  return number < 10 ? "0" + number : number;
+}
+
+  function getRandomNumber() {
+    return Math.random() * (30 - 20) + 20;
+  }
+  function getWRandomNumber() {
+    return Math.random() * (5 - 3) + 3;
+  }
+  function roundToDecimal(number) {
+    return Math.round(number * 10) / 10;
+  }
+
+  const randomNumber = getRandomNumber();
+  const roundedNumber = roundToDecimal(randomNumber);
+  const roundwNumber = roundToDecimal(getWRandomNumber());
+    const month = addZero(months+1);
+    const dates = addZero(datee)
+    const resultthree = `〈 ${addZero(hours)}:${addZero(minutes)} 〉ღ〈 ${dates}/${month}/${year} 〉`
+
+
+    // Randomize the link and text for the button
+    randomXX = getRandomElement(xxxx);
+    rdpictureGede = getRandomElement(pictureGede);
+    rdsmallpictureGede = getRandomElement(smallpictureGede);
+    const randomButtonText = getRandomElement(randomTexts);
+    const randomButtonText5 = getRandomElement(randomtext5);
+    linkButtonone = getRandomElement(randomLinks);
+    const pr = new RichPresence()  
+      .setName(`khanhvyy`)
+      .setURL('https://www.youtube.com/watch?v=UoHI3uL3XQ0')
+      .setType(`${type}`.toUpperCase())
+      .setApplicationId("1227633544474529934")
+      .setAssetsLargeImage(`${rdpictureGede}`)
+      .setAssetsSmallImage(`${rdsmallpictureGede}`)
+      .setAssetsLargeText(`🌡${roundedNumber} °C - 🍃 ${roundwNumber} m/s`)
+      .setAssetsSmallText(`ping: ${bot.ws.ping}ms`)
+      .setState(`: ${randomXX}`)
+      .setDetails(`${resultthree}`)
+      .setStartTimestamp(timestamps.timestampMidnight)
+      .setEndTimestamp(timestamps.timestampEndOfDay)
+      .addButton(`${randomButtonText}`, `${linkButtonone}`)
+     bot.user.setActivity(pr.toJSON());
+  }, getRandomInt(1000, 3000));
+  console.log(`${bot.user.tag} Status is showed up !!`);
+});
+
+bot.login('MzQ3MzI4NDM0MDY3ODY1NjA0.GLWr7Q.VbFx8c3BaFpYmg8Lmpu4GffVE3aBg3oW4iFDAA');
