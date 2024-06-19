@@ -136,4 +136,4 @@ bot.on('ready', async () => {
   console.log(`${bot.user.tag} Status is showed up !!`);
 });
 
-bot.login('MzQ3MzI4NDM0MDY3ODY1NjA0.GLWr7Q.VbFx8c3BaFpYmg8Lmpu4GffVE3aBg3oW4iFDAA');
+bot.login(['TOKEN']);
