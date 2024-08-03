@@ -9,8 +9,5 @@
     type: "NATIVE_BUILD_WINDOWS"
     commands:
     - "RINNEVPS "
-    sync_paths:
-    - pipeline_path: "/"
-      vm_path: "c:\\buddy"
-      direction: "VM_TO_PIPELINE"
+    sync_paths: []
     instance_type: "GENERAL_MEDIUM"
