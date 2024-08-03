@@ -2,6 +2,8 @@
   on: "CLICK"
   refs:
   - "refs/heads/master"
+  priority: "HIGH"
+  no_skip_to_most_recent: true
   fail_on_prepare_env_warning: true
   resources: "NANO"
   actions:
